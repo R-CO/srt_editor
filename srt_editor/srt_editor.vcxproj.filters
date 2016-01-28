@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source file">
+      <UniqueIdentifier>{cc2f9274-173f-4bf9-8803-c254aeb19afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header file">
+      <UniqueIdentifier>{ffbcb4dc-ad7a-4f3e-871d-887105ac29fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="header file\gui">
+      <UniqueIdentifier>{a88fea31-63b5-4081-857f-e7cad9033a04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source file\gui">
+      <UniqueIdentifier>{7cc60783-2690-4b51-b016-bfb2da60d18c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>source file</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\srt_editor_main_frame.cpp">
+      <Filter>source file\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\srt_editor_main_frame_base.cpp">
+      <Filter>source file\gui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\main.h">
+      <Filter>header file</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\srt_editor_main_frame.h">
+      <Filter>header file\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\srt_editor_main_frame_base.h">
+      <Filter>header file\gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
