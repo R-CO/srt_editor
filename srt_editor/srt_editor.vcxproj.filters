@@ -24,6 +24,9 @@
     <ClCompile Include="src\gui\srt_editor_main_frame_base.cpp">
       <Filter>source file\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\srt_process.cpp">
+      <Filter>source file</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\main.h">
@@ -34,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="src\gui\srt_editor_main_frame_base.h">
       <Filter>header file\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\srt_process.h">
+      <Filter>header file</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

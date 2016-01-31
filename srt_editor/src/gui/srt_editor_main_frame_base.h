@@ -49,7 +49,7 @@ namespace rco
 		
 		public:
 			
-			SrtEditorMainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			SrtEditorMainFrameBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Subtitle Editor by R-CO"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 			
 			~SrtEditorMainFrameBase();
 		

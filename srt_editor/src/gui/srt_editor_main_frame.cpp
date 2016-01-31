@@ -19,59 +19,38 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+/**
+*** Author: R-CO
+*** Mail: daniel1820kobe@gmail.com
+*** Date: 2016-01-27
+***/
 #include "srt_editor_main_frame.h"
 
-#include <wx/log.h>
-#include <wx/string.h>
-#include <wx/regex.h>
-#include <wx/filedlg.h>
 #include <wx/ffile.h>
+#include <wx/filedlg.h>
+#include <wx/log.h>
+#include <wx/msgdlg.h>
+#include <wx/regex.h>
+#include <wx/string.h>
 
 namespace rco {
-
-//
-// this one can only parsing single-line subtitle
-//
-//wxString SrtEditorMainFrame::srt_format_regex_ = wxT("(\\d+)\n(\\d+:\\d{2}:\\d{2},\\d{3})\\s-->\\s(\\d+:\\d{2}:\\d{2},\\d{3})\n(.*)\n\n");
-
-//
-//  0: the string matches the whole regular expression
-//  1: subtitle count
-//  2: start time
-//  3: hours (start time)
-//  4: minutes (start time)
-//  5: seconds (start time)
-//  6: milliseconds (start time)
-//  7: end time
-//  8: hours (end time)
-//  9: minutes (end time)
-// 10: seconds (end time)
-// 11: milliseconds (end time)
-// 12: subtitle text   <--- support multi-line
-//
-wxString SrtEditorMainFrame::srt_format_regex_ = 
-  wxT("(\\d+)\n((\\d+):(\\d{2}):(\\d{2}),(\\d{3}))\\s-->\\s((\\d+):(\\d{2}):(\\d{2}),(\\d{3}))\n([\\s]*(.*|.+\n.+)*(?=\n{2}|$))");
 
 SrtEditorMainFrame::SrtEditorMainFrame(wxWindow* parent)
   :
   SrtEditorMainFrameBase(parent),
-  file_buffer_(new(std::nothrow) wxString),
-  srt_content_(new(std::nothrow) std::vector<SrtContent>)
+  file_buffer_(new(std::nothrow) wxString)
 {
 
 }
 
 void SrtEditorMainFrame::open_file_menuItem_OnMenuSelection(wxCommandEvent& event)
 {
-  // TODO: Implement open_file_menuItem_OnMenuSelection
   wxFileDialog
     openFileDialog(this, _("Open srt file"), "", "",
                    "srt files (*.srt)|*.srt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-  if (openFileDialog.ShowModal() == wxID_CANCEL)
-    return;     // the user changed idea...
-
-                // proceed loading the file chosen by the user;
-                // this can be done with e.g. wxWidgets input streams:
+  if (openFileDialog.ShowModal() == wxID_CANCEL) {
+    return;
+  }
   wxFFile input_file(openFileDialog.GetPath());
   if (!input_file.IsOpened()) {
     wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
@@ -79,38 +58,37 @@ void SrtEditorMainFrame::open_file_menuItem_OnMenuSelection(wxCommandEvent& even
   }
 
   input_file.ReadAll(file_buffer_.get());
+  if (srt_file_content.ParseSrtFile(*file_buffer_) == false) {
+    wxMessageBox(_("Can not parse the file!"));
+  }
 }
 
 void SrtEditorMainFrame::save_file_menuItem_OnMenuSelection(wxCommandEvent& event)
 {
-  // TODO: Implement save_file_menuItem_OnMenuSelection
+  if (srt_file_content.IsOk() == true) {
+    wxFileDialog 
+      saveFileDialog(this, _("Save srt file"), "", "",
+                     "srt files (*.srt)|*.srt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if (saveFileDialog.ShowModal() == wxID_CANCEL) {
+      return;
+    }
+    
+    if (srt_file_content.SaveToFile(saveFileDialog.GetPath()) == false) {
+      wxLogError("Cannot save current contents in file '%s'.", saveFileDialog.GetPath());
+      return;
+    }
+  } else {
+    wxMessageBox(_("Please open a *.srt file first."));
+  }
 }
 
 void SrtEditorMainFrame::sort_by_time_menuItem_OnMenuSelection(wxCommandEvent& event)
 {
-  // TODO: Implement sort_by_time_menuItem_OnMenuSelection
-  if (file_buffer_->size() <= 0) {
-    return;
+  if (srt_file_content.IsOk() == true) {
+    srt_file_content.SortByTime();
+  } else {
+    wxMessageBox(_("Please open a *.srt file first."));
   }
-
-  wxRegEx regex(srt_format_regex_, wxRE_ADVANCED + wxRE_NEWLINE);
-  bool is_expression_ok = regex.IsValid();
-
-  wxString last;
-  if (is_expression_ok == true) {
-    wxString buffer = *file_buffer_;
-    size_t index = 0;
-    while (regex.Matches(buffer.substr(index)) == true) {
-      wxString match = regex.GetMatch(buffer.substr(index), 0);
-      last = match;
-      wxString count = regex.GetMatch(buffer.substr(index), 1);
-      wxString start = regex.GetMatch(buffer.substr(index), 2);
-      wxString subtitle = regex.GetMatch(buffer.substr(index), 12);
-      index += match.size();
-    }
-
-  }
-
 }
 
-}
+} // end of namespace rco
