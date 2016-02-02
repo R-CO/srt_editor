@@ -17,8 +17,8 @@ SrtEditorMainFrameBase::SrtEditorMainFrameBase( wxWindow* parent, wxWindowID id,
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 	
-	m_panel1 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	bSizer1->Add( m_panel1, 1, wxEXPAND | wxALL, 5 );
+	m_panel1 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxTAB_TRAVERSAL );
+	bSizer1->Add( m_panel1, 1, wxEXPAND | wxALL, 0 );
 	
 	
 	this->SetSizer( bSizer1 );
